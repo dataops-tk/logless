@@ -6,7 +6,6 @@ on:
       - "**"
     paths-ignore:
       - docs/**.md
-      - "*.md"
 
 jobs:
   python_build_and_test:
