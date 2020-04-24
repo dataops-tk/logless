@@ -26,7 +26,6 @@ jobs:
       - name: Install dependencies (python pip)
         run: |
           python3 -m pip install --upgrade pip
-          pip3 install -r requirements.local-dev.txt
           pip3 install flake8 pytest
       - name: Install tapdance
         run: |
