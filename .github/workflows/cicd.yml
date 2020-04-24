@@ -30,13 +30,6 @@ jobs:
       - name: Install tapdance
         run: |
           python3 setup.py install
-      - name: Test CLI shortcuts
-        run: |
-          set -v
-          s-docker --help
-          s-io --help
-          s-spark --help
-          s-infra --help
       - name: Lint with flake8
         run: |
           # stop the build if there are Python syntax errors or undefined names
