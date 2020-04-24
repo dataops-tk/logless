@@ -27,7 +27,7 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           pip3 install flake8 pytest
-      - name: Install tapdance
+      - name: Install logless
         run: |
           python3 setup.py install
       - name: Lint with flake8
@@ -63,7 +63,7 @@ jobs:
         uses: einaregilsson/build-number@v2
         with:
           token: ${{secrets.github_token}}
-      - name: Push to PyPi (https://pypi.org/project/tapdance/)
+      - name: Push to PyPi (https://pypi.org/project/logless/)
         env:
           # VERSION: ${{ github.ref }}
           BRANCH_NAME: ${{ github.ref }}
@@ -80,9 +80,9 @@ jobs:
       - name: Sleep before install
         run: |
           sleep 60
-      - name: Test install (pip install tapdance)
+      - name: Test install (pip install logless)
         run: |
-          pip install tapdance
-      - name: Test uninstall (pip uninstall tapdance)
+          pip install logless
+      - name: Test uninstall (pip uninstall logless)
         run: |
-          pip uninstall -y tapdance
+          pip uninstall -y logless
