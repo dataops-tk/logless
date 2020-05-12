@@ -40,10 +40,7 @@ setup(
     keywords=["DATAOPS", "LOGGING"],
     package_data={"": [VERSION_FILEPATH]},
     entry_points={
-        "console_scripts": [
-            # Register CLI commands:
-            # "s-tap = slalom.dataops.taputils:main",
-        ]
+        "console_scripts": []
     },
     include_package_data=True,
     install_requires=[

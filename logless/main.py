@@ -75,7 +75,7 @@ def elapsed_since(start, template="({duration} elapsed)"):
     return fstr(template, locals())
 
 
-def _flush_all_output():
+def flush_buffers():
     """Flush the logging buffers, stderr, and stdout."""
     sys.stdout.flush()
     sys.stderr.flush()
@@ -333,9 +333,9 @@ class logged():
         """Clear print buffer."""
         if self.buffer_lines:
             nl = "\n"
-            _flush_all_output()
+            flush_buffers()
             sys.stdout.write(f"\n\n{('-' * 80 + nl) * self.buffer_lines}\n\n")
-            _flush_all_output()
+            flush_buffers()
 
     def __call__(self, fn):
         """Call the decorated function."""
