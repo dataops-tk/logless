@@ -44,22 +44,11 @@ setup(
     },
     include_package_data=True,
     install_requires=[
-        "docker",
-        "fire",
-        "joblib",
-        "junit-xml",
         "psutil",
-        "pyyaml",
         "tqdm",
         "xmlrunner",
     ],
-    extras_require={
-        "AWS": ["awscli", "boto3", "s3fs"],
-        "Azure": ["azure"],
-        "Pandas": ["pandas"],
-        "S3": ["boto3", "s3fs"],
-        "Spark": ["pyspark"],
-    },
+    extras_require={},
     classifiers=[
         "Development Status :: 4 - Beta",  # "4 - Beta" or "5 - Production/Stable"
         "Intended Audience :: Developers",
