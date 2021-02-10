@@ -73,7 +73,7 @@ jobs:
           poetry version $(poetry version --short).$GITHUB_RUN_NUMBER
           poetry version --short
           echo -e "\nPublishing to version ref '$(poetry version --short)'...\n\n"
-          poetry config http-basic.pypi -u $PYPI_USER -p $PYPI_PASS
+          poetry config http-basic.pypi $PYPI_USER $PYPI_PASS
           poetry publish --build
       - name: Sleep before install
         run: |
