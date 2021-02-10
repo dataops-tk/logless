@@ -58,6 +58,11 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Install pipx and poetry
+        run: |
+          python3 -m pip install pipx
+          python3 -m pipx ensurepath
+          pipx install poetry
       - name: Push to PyPi (https://pypi.org/project/logless/)
         env:
           BRANCH_NAME: ${{ github.ref }}
