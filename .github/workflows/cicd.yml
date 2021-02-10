@@ -69,8 +69,11 @@ jobs:
           PYPI_PASS: ${{ secrets.PYPI_SECRET }}
         run: |
           poetry version --short
-          poetry version $(poetry version --short).$GITHUB_RUN_NUMBER
-          poetry version --short
+          if [[ "$BRANCH_NAME" == *master ]]
+          then
+            poetry version $(poetry version --short)-dev.$GITHUB_RUN_NUMBER
+            poetry version --short
+          fi
           echo -e "\nPublishing to version ref '$(poetry version --short)'...\n\n"
           poetry config http-basic.pypi $PYPI_USER $PYPI_PASS
           poetry publish --build
