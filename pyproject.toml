@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "logless"
+version = "0.2.1"
+description = ""
+authors = ["AJ Steers <aj.steers@slalom.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+psutil = "^5.8.0"
+tqdm = "^4.56.1"
+xmlrunner = "^1.7.7"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^3.8.4"
+pytest = "^6.2.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -23,23 +23,23 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install dependencies (python pip)
+      - name: Install pipx and poetry
         run: |
-          python3 -m pip install --upgrade pip
-          pip3 install flake8 pytest
+          python3 -m pip install pipx
+          python3 -m pipx ensurepath
+          pipx install poetry
       - name: Install logless
         run: |
-          python3 setup.py install
+          poetry install
       - name: Lint with flake8
         run: |
           # stop the build if there are Python syntax errors or undefined names
-          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          poetry run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+          poetry run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       # - name: Test with pytest
       #   run: |
       #     pytest
-
 
   pypi_publish:
     runs-on: ubuntu-latest
@@ -47,7 +47,6 @@ jobs:
       max-parallel: 4
       matrix:
         python-version:
-          - 3.7
           - 3.8
     needs:
       - python_build_and_test
@@ -58,31 +57,33 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Generate build number (BUILD_NUMBER)
-        id: buildnumber
-        uses: einaregilsson/build-number@v2
-        with:
-          token: ${{secrets.github_token}}
+      - name: Install pipx and poetry
+        run: |
+          python3 -m pip install pipx
+          python3 -m pipx ensurepath
+          pipx install poetry
       - name: Push to PyPi (https://pypi.org/project/logless/)
         env:
-          # VERSION: ${{ github.ref }}
           BRANCH_NAME: ${{ github.ref }}
           PYPI_USER: ${{ secrets.PYPI_USER }}
           PYPI_PASS: ${{ secrets.PYPI_SECRET }}
-          BUILD_NUMBER: ${{ steps.buildnumber.outputs.build_number }}
         run: |
-          echo -e "Installing twine...\n\n"
-          pip install twine
-          echo -e "\nCreating setup package...\n\n"
-          python setup.py sdist
-          echo -e "\nPublishing to version ref '$VERSION'...\n\n"
-          twine upload -u $PYPI_USER -p $PYPI_PASS dist/*
+          if [[ "$BRANCH_NAME" == *master ]]
+          then
+            poetry version --short
+          else
+            poetry version $(poetry version --short)-dev.$GITHUB_RUN_NUMBER
+            poetry version --short
+          fi
+          echo -e "\nPublishing to version ref '$(poetry version --short)'...\n\n"
+          poetry config http-basic.pypi $PYPI_USER $PYPI_PASS
+          poetry publish --build
       - name: Sleep before install
         run: |
           sleep 60
       - name: Test install (pip install logless)
         run: |
-          pip install logless
+          pip install --no-cache-dir logless==$(poetry version --short)
       - name: Test uninstall (pip uninstall logless)
         run: |
           pip uninstall -y logless
