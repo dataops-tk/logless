@@ -6,7 +6,7 @@ authors = ["AJ Steers <aj.steers@slalom.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.6"
 psutil = "^5.8.0"
 tqdm = "^4.56.1"
 xmlrunner = "^1.7.7"
